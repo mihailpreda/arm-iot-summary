@@ -565,8 +565,19 @@ There are two main types of kernel architectures:
   - COMMAND = the command line used to start the process
 - process execution control – signals
   - Signal = a limited form of interprocess communication used to (asynchronously) notify a specific process that an event had occurred
+  - exceptions – examples: division by zero, segmentation violation
+  - kill system call – used between different processes
+  - kernel
 
 4. User system
 5. The filesystem
 6. Networking
 7. General (DAC vs MAC)
+
+To be continued
+
+## ARM Assembly 32 bit
+
+https://azeria-labs.com/writing-arm-assembly-part-1/
+
+![cheatsheet](images/cheatsheetv1.3-1920x1080.png)
