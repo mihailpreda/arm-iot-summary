@@ -294,8 +294,9 @@ The core elements of MQTT are
 - Technically, topics are message queues.
 - support the publish/subscribe pattern for clients.
 - allow clients to exchange information with defined semantics.
-  Example topic: Temperature sensor data of a building.
-  ![mqttmodel3](images/mqttmodel3.png)
+  - Example topic: Temperature sensor data of a building.
+
+![mqttmodel3](images/mqttmodel3.png)
 
 4. Session
 
