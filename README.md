@@ -317,3 +317,65 @@ The core elements of MQTT are
 - Messages are the units of data exchange between topic clients
 - MQTT is agnostic to the internal structure of messages
   ![mqttmodel4](images/mqttmodel4.png)
+
+### MQTT message format
+
+MQTT messages contain a mandatory fixed-length header (2 bytes) and an optional message specific variable length header and message payload
+
+#### Message Type
+
+1. CONNECT
+   ![0_mqttconnect](images/0_mqttconnect.png)
+2. CONNACK
+   ![1_mqttconnect](images/1_mqttconnack.png)
+3. PUBLISH
+   - RETAIN=1 in a PUBLISH message instructs the server to keep the message for this topic.
+   - When a new client subscribes to the topic, the server sends the retained message.
+     ![PUBLISH](images/1_mqttpublish.png)
+4. PUBACK
+   ![PUBACK](images/1_mqttpuback.png)
+5. PUBREC
+   ![PUBREC](images/1_mqttpubrec.png)
+6. PUBREL
+   ![PUBREL](images/1_mqttpubrel.png)
+7. PUBCOMP
+   ![PUBCOMP](images/1_mqttpubcomp.png)
+8. SUBSCRIBE
+   ![SUBSCRIBE](images/1_mqttsubscribe.png)
+9. SUBACK
+   ![SUBACK](images/1_mqttsuback.png)
+10. UNSUBSCRIBE
+    ![UNSUBSCRIBE](images/1_mqttunsubscribe.png)
+11. UNSUBACK
+    ![UNSUBACK](images/1_mqttunsuback.png)
+12. PINGREQ
+    ![PINGREQ](images/1_mqttpingregresdisconnect.png)
+13. PINGRESP
+    ![PINGRESP](images/1_mqttpingregresdisconnect.png)
+14. DISCONNECT
+    ![DISCONNECT](images/1_mqttpingregresdisconnect.png)
+
+#### QoS (Quality of Service)
+
+MQTT provides the typical delivery quality of service (QoS) levels of message oriented middleware
+Even though TCP/IP provides guaranteed data delivery, data loss can still occur if a TCP connection breaks down and messages in transit are lost.
+Therefore MQTT adds 3 quality of service levels on top of TCP:
+
+1. QoS level 0
+
+   - At-most-once delivery («best effort»)
+   - Messages are delivered according to the delivery guarantees of the underlying network (TCP/IP)
+   - Example : Temperature sensor data which is regularly published
+     ![qos0](images/qos0.png)
+
+2. QoS level 1
+   - At-lest-once delivery.
+   - Messages are guaranteed to arrive, but there may be duplicates.
+   - Example : A door sensor senses the door state. It is important that door state changes are published losslessly to subscribers (e.g. alarming function). Applications simply discard duplicate messages by evaluating the message ID field.
+     ![qos1](images/qos1.png)
+3. QoS level 2
+   - Exactly-once delivery.
+   - This is the highest level that also incurs most overhead in terms of control messages and the need for locally storing the messages.
+   - Exactly-once is a combination of at-least-once and at-most-once delivery guarantee.
+   - Example: Applications where duplicate events could lead to incorrect actions, e.g. sounding an alarm as a reaction to an event received by a message.
+     ![qos2](images/qos2.png)
