@@ -221,13 +221,42 @@ operations
     Message Queueing Telemetry Transport – MQTT –
     Default TCP Port 1883
 
+### Definition
+
+MQTT is a lightweight message queueing and transport protocol.
+MQTT, as its name implies, is suited for the transport of telemetry data (sensor and actor data)
+MQTT is very lightweight and thus suited for
+
+- M2M (Machine to Machine / Mobile to Mobile)
+- WSN (Wireless Sensor Networks)
+- IoT (Internet of Things)
+  where sensor and actor nodes communicate with applications through the MQTT message broker
+
+### History
+
+MQTT was developed by IBM and Eurotech.
+Eventually, MQTT version 3.1 is to be adopted and published as an official standard by
+OASIS (process ongoing).
+As such, OASIS becomes the new home for the development of MQTT.
+
 1. Properties and Features:
-   - Publish / Subscribe message pattern -> one-to-many messaging distribution,applications decoupling;
+
+   - Publish / Subscribe message pattern -> one-to-many messaging distribution, applications decoupling;
+   - Publish / Subscribe (PubSub) model
+   - Decoupling of data producer (publisher) and data consumer (subscriber) through topics
+     (message queues)
    - Message transport payload-agnostic;
    - Assumes the use of the TCP/IP protocol stack;
    - 3 QoS Levels: At Most Once (0), At Least Once (1), Exactly Once (2);
    - Small Transport Overhead, minimal messages exchanges
    - Will Mechanism, to indicate to the other part an abnormal disconnection
+   - Lightweight message queueing and transport protocol
+   - Asynchronous communication model with messages (events)
+   - Low overhead (2 bytes header) for low network bandwidth applications
+   - Simple protocol, aimed at low complexity, low power and low footprint implementations (e.g.
+     WSN - Wireless Sensor Networks)
+   - Runs on connection-oriented transport (TCP). To be used in conjunction with 6LoWPAN
+     (TCP header compression)
 
 ### Publish Subscribe Messaging aka One to Many
 
@@ -236,3 +265,7 @@ A producer sends (publishes) a message (publication) on a topic (subject).
 A consumer subscribes (makes a subscription) for messages on a topic (subject)
 A topic is managed within a MQTT Broker
 ![mqtt](https://github.com/mihailpreda/arm-iot-summary/blob/master/images/mqtt%20one-to-many.png)
+
+### MQTT model
+
+![mqttmodel1](images/mqttmodel1.png)
