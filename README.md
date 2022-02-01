@@ -379,3 +379,101 @@ Therefore MQTT adds 3 quality of service levels on top of TCP:
    - Exactly-once is a combination of at-least-once and at-most-once delivery guarantee.
    - Example: Applications where duplicate events could lead to incorrect actions, e.g. sounding an alarm as a reaction to an event received by a message.
      ![qos2](images/qos2.png)
+
+### MQTT-SN
+
+- MQTT-SN is an extension of MQTT for WSNs.
+- WSNs (Wireless Sensor Networks) usually do not have TCP/IP as transport layer.
+- They have their own protocol stack such as ZigBee on top of IEEE 802.15.4 MAC layer. Thus, MQTT which is based on TCP/IP cannot be directly run on WSNs.
+- WSNs are connected to traditional TCP/IP networks through gateway devices
+- MQTT-SN is aimed at constrained low-end devices, usually running on a batttery, such as ZigBee devices
+
+MQTT-SN is a largely based on MQTT, but implements some important optimizations for wireless networks:
+
+- Topic string replaced by a topic ID (fewer bytes necessary)
+- Predefined topic IDs that do not require a registration
+- Discovery procedure for clients to find brokers (no need to statically configure broker addresses)
+- Persistent will message (in addition to persistent subscriptions)
+- Off-line keepalive supporting sleeping clients (will receive buffered messages from the server once they wake up)
+
+2. MQTT Implementations
+   - Client
+     - WebSphere MQ Telemetry Client (C,Java)
+     - Eclipse Paho (C, Java, Python, Lua)
+   - Server
+     - WebSphere MQ Broker (C, Java)
+     - Really Small Message Broker, RSMB (C)
+     - Mosquitto (JMS)
+     - EMQX
+
+## MQTT vs CoAP
+
+### MQTT
+
+- Many-to-Many Communication Protocol
+- Decoupling producers and consumers
+- Data - Centric.
+- It does best as a communication bus for live data
+- Clients makes long-lived outgoing TCP connection to a broker
+- No problem behind NAT
+- No support for labelling messages. All clients must know the message format up-front to allow the communication.
+- 3 QoS Levels
+
+### MQTT
+
+- One-to-One Communication Protocol (for UDP there is multicast)
+- Transferring State Information between client and server
+- Document - Centric
+- Best-suited to a state transfer model, not purely event-based
+- Clients and servers both send and receive UDP packets.
+- Tunnelling or Port Forwarding can be used to allow CoAP in NAT
+  environments (IPv4). With IPv6 no problems.
+- Provides inbuilt support for content negotiation (ACCEPT) and
+  discovery (list), allowing devices to find a way of exchanging data.
+- Provides inbuilt support for content negotiation (ACCEPT) and
+  discovery (list), allowing devices to find a way of exchanging data.
+
+## IoT Communications Protocols weaknesses
+
+MQTT, CoAP, DDS and XMPP are the main competitors for IoT messaging at the ApplicationLayer
+Each one of these has however some weaknesses:
+
+- MQTT appears weak in security;
+- DDS has problems in terms of scalability and various version dependence;
+- XMPP is excessively heavy;
+- CoAP not suitable for sending large sums of data and not reliable
+
+## Some acronyms related IoT Gateway Programming: Java Device Input Output (DIO)
+
+#### UART - Universal Asynchronous Receiver/Transmitter
+
+- UARTs are commonly used in conjunction with communication standards such as TIA (formerly EIA) RS-232, RS-422 or RS-485
+- It is an asynchronous protocol because of the protocol and the 4 wires:
+  - 2 wires for Data: RX (Receive) and TX (Transmit)
+  - 2 wires for VCC (Voltage) and GND (Ground)
+
+#### GPIO - General Purpose Input Output
+
+- Logical 1 or 0 controlled by software
+- Two wires (one for data, one for ground)
+- Dedicated to a single purpose
+- Drive a single LED
+- Statusflag
+- “bit-banging”
+
+#### SPI - Serial Peripheral Interface
+
+- Single master/multiple slaves connected to a single bus
+- Serial, full-duplex
+- Bits shift in on MISO (Master In Slave Out) as they shift out on MOSI (Master Out Slave In)
+
+#### I2C - Inter-Integrated Circuit
+
+- Multi-master/multi-slave bus
+  - Device I/O supports only slave devices
+  - One master is assumed
+- Serial, half-duplex because of the protocol and 4 or 5 wires:
+  - 2 wires (SLC – I2C Clock, SDA – I2C Data)
+  - 2 wires for VCC (Voltage) and GND (Ground)
+  - 1 optional – RESET wire
+- One line for data, one for clock, no separate address lines
