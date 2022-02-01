@@ -235,4 +235,4 @@ A Publish Subscribe messaging protocol allowing a message to be published once a
 A producer sends (publishes) a message (publication) on a topic (subject).
 A consumer subscribes (makes a subscription) for messages on a topic (subject)
 A topic is managed within a MQTT Broker
-![mqtt](./images/mqtt one-to-many.png)
+![mqtt](https://github.com/mihailpreda/arm-iot-summary/blob/master/images/mqtt%20one-to-many.png)
