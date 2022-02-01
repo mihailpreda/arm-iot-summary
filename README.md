@@ -247,7 +247,7 @@ As such, OASIS becomes the new home for the development of MQTT.
      (message queues)
    - Message transport payload-agnostic;
    - Assumes the use of the TCP/IP protocol stack;
-   - 3 QoS Levels: At Most Once (0), At Least Once (1), Exactly Once (2);
+   - 3 QoS Levels: At Most Once (0) (best effort), At Least Once (1), Exactly Once (2);
    - Small Transport Overhead, minimal messages exchanges
    - Will Mechanism, to indicate to the other part an abnormal disconnection
    - Lightweight message queueing and transport protocol
@@ -264,8 +264,55 @@ A Publish Subscribe messaging protocol allowing a message to be published once a
 A producer sends (publishes) a message (publication) on a topic (subject).
 A consumer subscribes (makes a subscription) for messages on a topic (subject)
 A topic is managed within a MQTT Broker
-![mqtt](https://github.com/mihailpreda/arm-iot-summary/blob/master/images/mqtt%20one-to-many.png)
+![mqtt](images/mqtt-one-to-many.png)
 
 ### MQTT model
 
-![mqttmodel1](images/mqttmodel1.png)
+The core elements of MQTT are
+
+- clients
+- servers (=brokers)
+- sessions
+- subscriptions
+- topics.
+  ![mqttmodel1](images/mqttmodel1.png)
+
+1. MQTT client (=publisher, subscriber):
+
+- Clients subscribe to topics to publish and receive messages.
+- Thus subscriber and publisher are special roles of a client.
+
+  ![mqttmodel2](images/mqttmodel2.png)
+
+2. MQTT server (=broker):
+
+- Servers run topics, i.e. receive subscriptions from clients on topics, receive messages from
+  clients and forward these, based on client’s subscriptions, to interested clients.
+
+3. Topic:
+
+- Technically, topics are message queues.
+- support the publish/subscribe pattern for clients.
+- allow clients to exchange information with defined semantics.
+  Example topic: Temperature sensor data of a building.
+  ![mqttmodel3](images/mqttmodel3.png)
+
+4. Session
+
+- A session identifies a (possibly temporary) attachment of a client to a server. All
+  communication between client and server takes place as part of a session.
+
+5. Subscription
+
+- subscription logically attaches a client to a topic.
+  When subscribed to a topic, a client can exchange messages with a topic.
+- Subscriptions can be
+  - «transient» or
+  - «durable»,
+    depending on the clean session flag in the CONNECT message:
+
+6. Message
+
+- Messages are the units of data exchange between topic clients
+- MQTT is agnostic to the internal structure of messages
+  ![mqttmodel4](images/mqttmodel4.png)
