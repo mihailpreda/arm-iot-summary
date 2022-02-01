@@ -477,3 +477,96 @@ Each one of these has however some weaknesses:
   - 2 wires for VCC (Voltage) and GND (Ground)
   - 1 optional – RESET wire
 - One line for data, one for clock, no separate address lines
+
+## OS Security
+
+### Kernel
+
+- the first "program" loaded by the BIOS/boot loader
+- its functionality (the way it works) is very closely related to the CPU architecture
+- represents the "glue layer" which provides the environment necessary for the applications to run on the given hardware
+- responsible for the management (initialisation, utilisation << incl. protection >>, deallocation) of all computer resources (examples of resources: CPU, memory, storage devices, etc.)
+- responsible for the management of all processes
+
+There are two main types of kernel architectures:
+
+- monolithic – all the parts of the kernel execute in the same (kernel) address space
+  - its capability is extensible through modules (drivers). Once these modules (drivers) are loaded, they become part of the running kernel (they run in the kernel address space).
+  - advantages: speed
+  - disadvantages: stability and security
+- microkernel – only a few essential parts of the kernel execute in the kernel address space, the rest are running in user space as programs called “servers”
+  - the communication between different parts of the kernel happens through IPC (Inter-Process Communication) mechanisms
+  - advantages: stability, maintainability and security
+  - disadvantages: speed, ease of implementation
+
+### Driver(s)
+
+- part of the kernel, mainly responsible for the management of hardware
+- contains device specific code
+- communicates with the device through IRQs, I/O ports and DMA channels.
+- main source of system instability
+
+### System calls
+
+- kernel code which permits user-space applications to use kernel-space functions/services in a legitimate way
+- examples: file read/write, memory allocation, etc.
+- it generally interfaces with applications through system libraries
+- some of them are “intercepted” by antivirus software so it (the antivirus) is able to perform “on-access” scanning
+
+### Applications
+
+- programs that run outside the kernel and directly or indirectly provide services to the user (be it an administrator, end-user, hacker)
+- when running, their entire “life” is strictly managed by the kernel
+- examples: IoT Clients SW, IoT GW SW, HTTP server, shell, IM client, most viruses, etc.
+
+## Linux OS security levels
+
+1. The boot process
+
+- represents the process of loading the kernel into memory
+  and passing control to it
+- for Linux on the IBM PC/IA 32 architecture, it can be
+  broken into six logical stages:
+
+  1.  BIOS selects the boot device
+  2.  BIOS loads the bootsector/bootloader from the boot device
+  3.  Bootsector/bootloader loads setup, decompression routines and compressed kernel image
+  4.  The kernel is uncompressed in protected mode
+  5.  Low-level initialisation (asm code)
+  6.  High-level initialisation (C code)
+
+- security considerations:
+  - boot viruses (ancient)
+  - boot device override
+  - OS override
+  - kernel parameters override
+
+2. The kernel
+   `command: $ dmesg | less`
+
+- security considerations:
+  - due to the key role of the kernel, security compromises at this level have the greatest impact and are the hardest to detect (although rare and somewhat harder to exploit)
+  - examples of security vulnerabilities: buggy kernel code, bad drivers, kernel architecture (modules rootkits
+
+3. Processes & memory
+   `command: $ ps -e -o pid,ppid,uid,gid,ni,stat,time,%cpu,%mem,command | less`
+
+- Process = program instance loaded in memory and running with its own dedicated address space and state information
+- main characteristics:
+  - PID = Process ID
+  - PPID = Parent Process ID
+  - UID = User ID of the process
+  - GID = Group ID of the process
+  - NI = process' NIce value
+  - STAT = process STATe
+  - TIME = cumulative CPU TIME used by this process
+  - %CPU = CPU time used / the time this process has been running
+  - %MEM = % of memory used by this process
+  - COMMAND = the command line used to start the process
+- process execution control – signals
+  - Signal = a limited form of interprocess communication used to (asynchronously) notify a specific process that an event had occurred
+
+4. User system
+5. The filesystem
+6. Networking
+7. General (DAC vs MAC)
